@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Budget Tracker</title>
+    <title>Monthly Budget Tracker</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -37,6 +37,38 @@
         .header h1 {
             font-size: 2.5rem;
             margin-bottom: 10px;
+        }
+
+        .month-nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .month-nav button {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .month-nav button:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .current-month {
+            font-size: 1.5rem;
+            font-weight: 700;
+            min-width: 200px;
         }
 
         .conversion-rate {
@@ -101,11 +133,46 @@
             font-size: 1.4rem;
             border-bottom: 2px solid #3498db;
             padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .income-expense-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+
+        .fixed-variable-tabs {
+            display: flex;
+            background: #e9ecef;
+            border-radius: 8px;
+            padding: 3px;
+            margin-bottom: 20px;
+        }
+
+        .fixed-variable-tabs button {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            background: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #6c757d;
+        }
+
+        .fixed-variable-tabs button.active {
+            background: #3498db;
+            color: white;
         }
 
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             margin-bottom: 15px;
         }
@@ -177,6 +244,14 @@
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
 
+        .btn-success {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.4);
+        }
+
         .btn-danger {
             background: linear-gradient(135deg, #e74c3c, #c0392b);
         }
@@ -186,17 +261,18 @@
         }
 
         .transactions-list {
-            max-height: 400px;
+            max-height: 300px;
             overflow-y: auto;
             border: 1px solid #e9ecef;
             border-radius: 8px;
+            margin-top: 15px;
         }
 
         .transaction-item {
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr 80px;
             gap: 15px;
-            padding: 15px;
+            padding: 12px;
             border-bottom: 1px solid #e9ecef;
             align-items: center;
             transition: background-color 0.2s ease;
@@ -214,10 +290,11 @@
             display: grid;
             grid-template-columns: 2fr 1fr 1fr 1fr 80px;
             gap: 15px;
-            padding: 15px;
+            padding: 12px;
             background: #2c3e50;
             color: white;
             font-weight: 600;
+            font-size: 13px;
         }
 
         .delete-btn {
@@ -237,7 +314,7 @@
 
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
@@ -264,7 +341,7 @@
         }
 
         .summary-card .amount {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             margin-bottom: 5px;
         }
@@ -274,7 +351,51 @@
             opacity: 0.8;
         }
 
-        .chart-container {
+        .fixed-variable-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .breakdown-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .breakdown-card h4 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .breakdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .breakdown-item .name {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .breakdown-item .amount {
+            font-weight: 700;
+            color: #3498db;
+        }
+
+        .monthly-comparison {
             background: white;
             border-radius: 12px;
             padding: 25px;
@@ -282,42 +403,60 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .chart {
-            width: 100%;
-            height: 300px;
-            position: relative;
+        .monthly-comparison h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
         }
 
-        .category-breakdown {
+        .comparison-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 15px;
         }
 
-        .category-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
+        .month-card {
             background: #f8f9fa;
+            padding: 20px;
             border-radius: 8px;
             border-left: 4px solid #3498db;
         }
 
-        .category-item .name {
-            font-weight: 600;
+        .month-card h5 {
             color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
         }
 
-        .category-item .amount {
-            font-weight: 700;
-            color: #3498db;
+        .month-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 14px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .stat-label {
+            color: #6c757d;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #2c3e50;
         }
 
         @media (max-width: 768px) {
             .container {
                 margin: 0;
                 border-radius: 0;
+            }
+            
+            .income-expense-grid {
+                grid-template-columns: 1fr;
             }
             
             .form-grid {
@@ -332,99 +471,186 @@
             .summary-grid {
                 grid-template-columns: 1fr;
             }
+
+            .fixed-variable-breakdown {
+                grid-template-columns: 1fr;
+            }
+
+            .month-nav {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>💰 Personal Budget Tracker</h1>
-            <p>Manage your finances in USD and Gambian Dalasi</p>
+            <h1>📅 Monthly Budget Tracker</h1>
+            <p>Advanced budgeting with month tracking & fixed/variable categorization</p>
+            <div class="month-nav">
+                <button onclick="changeMonth(-1)">← Previous</button>
+                <div class="current-month" id="current-month"></div>
+                <button onclick="changeMonth(1)">Next →</button>
+            </div>
             <div class="conversion-rate">
                 <strong>Exchange Rate: $1 USD = D68 GMD</strong>
             </div>
         </div>
 
         <div class="tabs">
-            <button class="tab active" onclick="switchTab('budget')">📊 Budget</button>
-            <button class="tab" onclick="switchTab('dashboard')">📈 Dashboard</button>
+            <button class="tab active" onclick="switchTab('budget')">💼 Budget</button>
+            <button class="tab" onclick="switchTab('dashboard')">📊 Dashboard</button>
+            <button class="tab" onclick="switchTab('analysis')">📈 Analysis</button>
         </div>
 
         <!-- Budget Tab -->
         <div id="budget" class="tab-content active">
-            <!-- Income Section -->
-            <div class="section">
-                <h3>💼 Income</h3>
-                <div class="currency-toggle">
-                    <button class="active" onclick="setCurrency('income', 'USD')">USD ($)</button>
-                    <button onclick="setCurrency('income', 'GMD')">GMD (D)</button>
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="income-source">Income Source</label>
-                        <input type="text" id="income-source" placeholder="e.g., Salary, Freelance">
+            <div class="income-expense-grid">
+                <!-- Income Section -->
+                <div class="section">
+                    <h3>💼 Income Management</h3>
+                    
+                    <div class="fixed-variable-tabs">
+                        <button class="active" onclick="switchIncomeType('fixed')">Fixed Income</button>
+                        <button onclick="switchIncomeType('variable')">Variable Income</button>
                     </div>
-                    <div class="form-group">
-                        <label for="income-amount">Amount</label>
-                        <input type="number" id="income-amount" step="0.01" placeholder="0.00">
-                    </div>
-                </div>
-                <button class="btn" onclick="addIncome()">Add Income</button>
-                
-                <div class="transactions-list" style="margin-top: 20px;">
-                    <div class="transaction-header">
-                        <div>Source</div>
-                        <div>Amount (USD)</div>
-                        <div>Amount (GMD)</div>
-                        <div>Date</div>
-                        <div>Action</div>
-                    </div>
-                    <div id="income-list"></div>
-                </div>
-            </div>
 
-            <!-- Expenses Section -->
-            <div class="section">
-                <h3>💳 Expenses</h3>
-                <div class="currency-toggle">
-                    <button class="active" onclick="setCurrency('expense', 'USD')">USD ($)</button>
-                    <button onclick="setCurrency('expense', 'GMD')">GMD (D)</button>
+                    <div class="currency-toggle">
+                        <button class="active" onclick="setCurrency('income', 'USD')">USD ($)</button>
+                        <button onclick="setCurrency('income', 'GMD')">GMD (D)</button>
+                    </div>
+
+                    <!-- Fixed Income Form -->
+                    <div id="fixed-income-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fixed-income-source">Fixed Income Source</label>
+                                <input type="text" id="fixed-income-source" placeholder="e.g., Monthly Salary">
+                            </div>
+                            <div class="form-group">
+                                <label for="fixed-income-amount">Monthly Amount</label>
+                                <input type="number" id="fixed-income-amount" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="addIncome('fixed')">Add Fixed Income</button>
+                    </div>
+
+                    <!-- Variable Income Form -->
+                    <div id="variable-income-form" style="display: none;">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="variable-income-source">Variable Income Source</label>
+                                <input type="text" id="variable-income-source" placeholder="e.g., Freelance, Bonus">
+                            </div>
+                            <div class="form-group">
+                                <label for="variable-income-amount">Amount</label>
+                                <input type="number" id="variable-income-amount" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="variable-income-date">Date</label>
+                                <input type="date" id="variable-income-date">
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="addIncome('variable')">Add Variable Income</button>
+                    </div>
+
+                    <div class="transactions-list">
+                        <div class="transaction-header">
+                            <div>Source</div>
+                            <div>USD</div>
+                            <div>GMD</div>
+                            <div>Type/Date</div>
+                            <div>Action</div>
+                        </div>
+                        <div id="income-list"></div>
+                    </div>
                 </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="expense-category">Category</label>
-                        <select id="expense-category">
-                            <option value="Food & Dining">🍽️ Food & Dining</option>
-                            <option value="Transportation">🚗 Transportation</option>
-                            <option value="Housing">🏠 Housing</option>
-                            <option value="Utilities">⚡ Utilities</option>
-                            <option value="Healthcare">🏥 Healthcare</option>
-                            <option value="Entertainment">🎬 Entertainment</option>
-                            <option value="Shopping">🛍️ Shopping</option>
-                            <option value="Education">📚 Education</option>
-                            <option value="Other">📋 Other</option>
-                        </select>
+
+                <!-- Expense Section -->
+                <div class="section">
+                    <h3>💳 Expense Management</h3>
+                    
+                    <div class="fixed-variable-tabs">
+                        <button class="active" onclick="switchExpenseType('fixed')">Fixed Expenses</button>
+                        <button onclick="switchExpenseType('variable')">Variable Expenses</button>
                     </div>
-                    <div class="form-group">
-                        <label for="expense-description">Description</label>
-                        <input type="text" id="expense-description" placeholder="e.g., Grocery shopping">
+
+                    <div class="currency-toggle">
+                        <button class="active" onclick="setCurrency('expense', 'USD')">USD ($)</button>
+                        <button onclick="setCurrency('expense', 'GMD')">GMD (D)</button>
                     </div>
-                    <div class="form-group">
-                        <label for="expense-amount">Amount</label>
-                        <input type="number" id="expense-amount" step="0.01" placeholder="0.00">
+
+                    <!-- Fixed Expense Form -->
+                    <div id="fixed-expense-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="fixed-expense-category">Fixed Category</label>
+                                <select id="fixed-expense-category">
+                                    <option value="Rent/Mortgage">🏠 Rent/Mortgage</option>
+                                    <option value="Insurance">🛡️ Insurance</option>
+                                    <option value="Utilities">⚡ Utilities</option>
+                                    <option value="Internet/Phone">📱 Internet/Phone</option>
+                                    <option value="Subscriptions">📺 Subscriptions</option>
+                                    <option value="Loan Payments">🏦 Loan Payments</option>
+                                    <option value="Other Fixed">📋 Other Fixed</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="fixed-expense-description">Description</label>
+                                <input type="text" id="fixed-expense-description" placeholder="e.g., Monthly rent">
+                            </div>
+                            <div class="form-group">
+                                <label for="fixed-expense-amount">Monthly Amount</label>
+                                <input type="number" id="fixed-expense-amount" step="0.01" placeholder="0.00">
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" onclick="addExpense('fixed')">Add Fixed Expense</button>
                     </div>
-                </div>
-                <button class="btn" onclick="addExpense()">Add Expense</button>
-                
-                <div class="transactions-list" style="margin-top: 20px;">
-                    <div class="transaction-header">
-                        <div>Category & Description</div>
-                        <div>Amount (USD)</div>
-                        <div>Amount (GMD)</div>
-                        <div>Date</div>
-                        <div>Action</div>
+
+                    <!-- Variable Expense Form -->
+                    <div id="variable-expense-form" style="display: none;">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="variable-expense-category">Variable Category</label>
+                                <select id="variable-expense-category">
+                                    <option value="Food & Dining">🍽️ Food & Dining</option>
+                                    <option value="Transportation">🚗 Transportation</option>
+                                    <option value="Healthcare">🏥 Healthcare</option>
+                                    <option value="Entertainment">🎬 Entertainment</option>
+                                    <option value="Shopping">🛍️ Shopping</option>
+                                    <option value="Travel">✈️ Travel</option>
+                                    <option value="Personal Care">💄 Personal Care</option>
+                                    <option value="Gifts">🎁 Gifts</option>
+                                    <option value="Other Variable">📋 Other Variable</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="variable-expense-description">Description</label>
+                                <input type="text" id="variable-expense-description" placeholder="e.g., Grocery shopping">
+                            </div>
+                            <div class="form-group">
+                                <label for="variable-expense-amount">Amount</label>
+                                <input type="number" id="variable-expense-amount" step="0.01" placeholder="0.00">
+                            </div>
+                            <div class="form-group">
+                                <label for="variable-expense-date">Date</label>
+                                <input type="date" id="variable-expense-date">
+                            </div>
+                        </div>
+                        <button class="btn btn-danger" onclick="addExpense('variable')">Add Variable Expense</button>
                     </div>
-                    <div id="expense-list"></div>
+
+                    <div class="transactions-list">
+                        <div class="transaction-header">
+                            <div>Category & Description</div>
+                            <div>USD</div>
+                            <div>GMD</div>
+                            <div>Type/Date</div>
+                            <div>Action</div>
+                        </div>
+                        <div id="expense-list"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -438,9 +664,29 @@
                     <div class="currency" id="total-income-gmd">D0.00</div>
                 </div>
                 <div class="summary-card">
+                    <h4>Fixed Income</h4>
+                    <div class="amount" id="fixed-income-usd">$0.00</div>
+                    <div class="currency" id="fixed-income-gmd">D0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h4>Variable Income</h4>
+                    <div class="amount" id="variable-income-usd">$0.00</div>
+                    <div class="currency" id="variable-income-gmd">D0.00</div>
+                </div>
+                <div class="summary-card">
                     <h4>Total Expenses</h4>
                     <div class="amount" id="total-expenses-usd">$0.00</div>
                     <div class="currency" id="total-expenses-gmd">D0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h4>Fixed Expenses</h4>
+                    <div class="amount" id="fixed-expenses-usd">$0.00</div>
+                    <div class="currency" id="fixed-expenses-gmd">D0.00</div>
+                </div>
+                <div class="summary-card">
+                    <h4>Variable Expenses</h4>
+                    <div class="amount" id="variable-expenses-usd">$0.00</div>
+                    <div class="currency" id="variable-expenses-gmd">D0.00</div>
                 </div>
                 <div class="summary-card">
                     <h4>Net Savings</h4>
@@ -454,31 +700,37 @@
                 </div>
             </div>
 
-            <div class="chart-container">
-                <h3>📊 Expense Breakdown by Category</h3>
-                <div class="category-breakdown" id="category-breakdown">
-                    <!-- Category items will be populated here -->
+            <div class="fixed-variable-breakdown">
+                <div class="breakdown-card">
+                    <h4>📈 Income Breakdown</h4>
+                    <div id="income-breakdown"></div>
+                </div>
+                <div class="breakdown-card">
+                    <h4>📉 Expense Breakdown</h4>
+                    <div id="expense-breakdown"></div>
                 </div>
             </div>
+        </div>
 
-            <div class="chart-container">
-                <h3>📅 Recent Transactions</h3>
-                <div id="recent-transactions">
-                    <!-- Recent transactions will be populated here -->
-                </div>
+        <!-- Analysis Tab -->
+        <div id="analysis" class="tab-content">
+            <div class="monthly-comparison">
+                <h3>📊 Monthly Comparison</h3>
+                <div class="comparison-grid" id="monthly-comparison"></div>
             </div>
         </div>
     </div>
 
     <script>
-        // Exchange rate
+        // Exchange rate and data storage
         const USD_TO_GMD = 68;
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+        let currentIncomeType = 'fixed';
+        let currentExpenseType = 'fixed';
         
         // Data storage
-        let budgetData = {
-            income: JSON.parse(localStorage.getItem('budget-income') || '[]'),
-            expenses: JSON.parse(localStorage.getItem('budget-expenses') || '[]')
-        };
+        let budgetData = JSON.parse(localStorage.getItem('monthly-budget-data') || '{}');
         
         // Current currency settings
         let currentCurrency = {
@@ -488,32 +740,108 @@
 
         // Initialize the app
         function init() {
-            updateIncomeList();
-            updateExpenseList();
+            setCurrentDate();
+            updateCurrentMonthDisplay();
+            loadCurrentMonthData();
+            updateAllLists();
             updateDashboard();
+            updateAnalysis();
+        }
+
+        function setCurrentDate() {
+            const today = new Date();
+            const dateInputs = ['variable-income-date', 'variable-expense-date'];
+            dateInputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.value = today.toISOString().split('T')[0];
+                }
+            });
+        }
+
+        function getMonthKey() {
+            return `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
+        }
+
+        function getCurrentMonthData() {
+            const key = getMonthKey();
+            if (!budgetData[key]) {
+                budgetData[key] = {
+                    income: [],
+                    expenses: []
+                };
+            }
+            return budgetData[key];
+        }
+
+        function updateCurrentMonthDisplay() {
+            const monthNames = [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ];
+            document.getElementById('current-month').textContent = 
+                `${monthNames[currentMonth]} ${currentYear}`;
+        }
+
+        function changeMonth(direction) {
+            currentMonth += direction;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateCurrentMonthDisplay();
+            loadCurrentMonthData();
+            updateAllLists();
+            updateDashboard();
+            updateAnalysis();
+        }
+
+        function loadCurrentMonthData() {
+            getCurrentMonthData(); // This creates the month data if it doesn't exist
         }
 
         // Tab switching
         function switchTab(tabName) {
-            // Remove active class from all tabs and content
             document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
-            // Add active class to selected tab and content
             event.target.classList.add('active');
             document.getElementById(tabName).classList.add('active');
             
-            // Update dashboard when switching to it
             if (tabName === 'dashboard') {
                 updateDashboard();
+            } else if (tabName === 'analysis') {
+                updateAnalysis();
             }
+        }
+
+        // Income/Expense type switching
+        function switchIncomeType(type) {
+            currentIncomeType = type;
+            const buttons = event.target.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('fixed-income-form').style.display = type === 'fixed' ? 'block' : 'none';
+            document.getElementById('variable-income-form').style.display = type === 'variable' ? 'block' : 'none';
+        }
+
+        function switchExpenseType(type) {
+            currentExpenseType = type;
+            const buttons = event.target.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            document.getElementById('fixed-expense-form').style.display = type === 'fixed' ? 'block' : 'none';
+            document.getElementById('variable-expense-form').style.display = type === 'variable' ? 'block' : 'none';
         }
 
         // Currency switching
         function setCurrency(type, currency) {
             currentCurrency[type] = currency;
-            
-            // Update button states
             const buttons = event.target.parentElement.querySelectorAll('button');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
@@ -534,9 +862,15 @@
         }
 
         // Add income
-        function addIncome() {
-            const source = document.getElementById('income-source').value.trim();
-            const amount = parseFloat(document.getElementById('income-amount').value);
+        function addIncome(type) {
+            const sourceId = `${type}-income-source`;
+            const amountId = `${type}-income-amount`;
+            const dateId = `${type}-income-date`;
+            
+            const source = document.getElementById(sourceId).value.trim();
+            const amount = parseFloat(document.getElementById(amountId).value);
+            const dateElement = document.getElementById(dateId);
+            const date = dateElement ? dateElement.value : new Date().toISOString().split('T')[0];
             
             if (!source || !amount || amount <= 0) {
                 alert('Please enter a valid income source and amount.');
@@ -550,24 +884,34 @@
                 currency: currentCurrency.income,
                 amountUSD: convertToUSD(amount, currentCurrency.income),
                 amountGMD: convertToGMD(amount, currentCurrency.income),
-                date: new Date().toLocaleDateString()
+                type: type,
+                date: date,
+                month: getMonthKey()
             };
             
-            budgetData.income.push(income);
+            const monthData = getCurrentMonthData();
+            monthData.income.push(income);
             saveData();
-            updateIncomeList();
+            updateAllLists();
             updateDashboard();
             
             // Clear form
-            document.getElementById('income-source').value = '';
-            document.getElementById('income-amount').value = '';
+            document.getElementById(sourceId).value = '';
+            document.getElementById(amountId).value = '';
         }
 
         // Add expense
-        function addExpense() {
-            const category = document.getElementById('expense-category').value;
-            const description = document.getElementById('expense-description').value.trim();
-            const amount = parseFloat(document.getElementById('expense-amount').value);
+        function addExpense(type) {
+            const categoryId = `${type}-expense-category`;
+            const descriptionId = `${type}-expense-description`;
+            const amountId = `${type}-expense-amount`;
+            const dateId = `${type}-expense-date`;
+            
+            const category = document.getElementById(categoryId).value;
+            const description = document.getElementById(descriptionId).value.trim();
+            const amount = parseFloat(document.getElementById(amountId).value);
+            const dateElement = document.getElementById(dateId);
+            const date = dateElement ? dateElement.value : new Date().toISOString().split('T')[0];
             
             if (!description || !amount || amount <= 0) {
                 alert('Please enter a valid expense description and amount.');
@@ -582,17 +926,26 @@
                 currency: currentCurrency.expense,
                 amountUSD: convertToUSD(amount, currentCurrency.expense),
                 amountGMD: convertToGMD(amount, currentCurrency.expense),
-                date: new Date().toLocaleDateString()
+                type: type,
+                date: date,
+                month: getMonthKey()
             };
             
-            budgetData.expenses.push(expense);
+            const monthData = getCurrentMonthData();
+            monthData.expenses.push(expense);
             saveData();
-            updateExpenseList();
+            updateAllLists();
             updateDashboard();
             
             // Clear form
-            document.getElementById('expense-description').value = '';
-            document.getElementById('expense-amount').value = '';
+            document.getElementById(descriptionId).value = '';
+            document.getElementById(amountId).value = '';
+        }
+
+        // Update all lists
+        function updateAllLists() {
+            updateIncomeList();
+            updateExpenseList();
         }
 
         // Update income list
@@ -600,14 +953,16 @@
             const list = document.getElementById('income-list');
             list.innerHTML = '';
             
-            budgetData.income.forEach(income => {
+            const monthData = getCurrentMonthData();
+            monthData.income.forEach(income => {
                 const item = document.createElement('div');
                 item.className = 'transaction-item';
+                const typeDisplay = income.type === 'fixed' ? 'Fixed' : new Date(income.date).toLocaleDateString();
                 item.innerHTML = `
                     <div><strong>${income.source}</strong></div>
                     <div>${formatCurrency(income.amountUSD, 'USD')}</div>
                     <div>${formatCurrency(income.amountGMD, 'GMD')}</div>
-                    <div>${income.date}</div>
+                    <div><span style="padding: 3px 8px; border-radius: 4px; font-size: 11px; background: ${income.type === 'fixed' ? '#d4edda' : '#fff3cd'}; color: ${income.type === 'fixed' ? '#155724' : '#856404'};">${typeDisplay}</span></div>
                     <div><button class="delete-btn" onclick="deleteIncome(${income.id})">Delete</button></div>
                 `;
                 list.appendChild(item);
@@ -619,41 +974,52 @@
             const list = document.getElementById('expense-list');
             list.innerHTML = '';
             
-            budgetData.expenses.forEach(expense => {
+            const monthData = getCurrentMonthData();
+            monthData.expenses.forEach(expense => {
                 const item = document.createElement('div');
                 item.className = 'transaction-item';
+                const typeDisplay = expense.type === 'fixed' ? 'Fixed' : new Date(expense.date).toLocaleDateString();
                 item.innerHTML = `
                     <div><strong>${expense.category}</strong><br><small>${expense.description}</small></div>
                     <div>${formatCurrency(expense.amountUSD, 'USD')}</div>
                     <div>${formatCurrency(expense.amountGMD, 'GMD')}</div>
-                    <div>${expense.date}</div>
+                    <div><span style="padding: 3px 8px; border-radius: 4px; font-size: 11px; background: ${expense.type === 'fixed' ? '#f8d7da' : '#ffeaa7'}; color: ${expense.type === 'fixed' ? '#721c24' : '#b7560c'};">${typeDisplay}</span></div>
                     <div><button class="delete-btn" onclick="deleteExpense(${expense.id})">Delete</button></div>
                 `;
                 list.appendChild(item);
             });
         }
 
-        // Delete income
+        // Delete functions
         function deleteIncome(id) {
-            budgetData.income = budgetData.income.filter(income => income.id !== id);
+            const monthData = getCurrentMonthData();
+            monthData.income = monthData.income.filter(income => income.id !== id);
             saveData();
-            updateIncomeList();
+            updateAllLists();
             updateDashboard();
         }
 
-        // Delete expense
         function deleteExpense(id) {
-            budgetData.expenses = budgetData.expenses.filter(expense => expense.id !== id);
+            const monthData = getCurrentMonthData();
+            monthData.expenses = monthData.expenses.filter(expense => expense.id !== id);
             saveData();
-            updateExpenseList();
+            updateAllLists();
             updateDashboard();
         }
 
         // Update dashboard
         function updateDashboard() {
+            const monthData = getCurrentMonthData();
+            
             // Calculate totals
-            const totalIncomeUSD = budgetData.income.reduce((sum, income) => sum + income.amountUSD, 0);
-            const totalExpensesUSD = budgetData.expenses.reduce((sum, expense) => sum + expense.amountUSD, 0);
+            const totalIncomeUSD = monthData.income.reduce((sum, income) => sum + income.amountUSD, 0);
+            const fixedIncomeUSD = monthData.income.filter(i => i.type === 'fixed').reduce((sum, income) => sum + income.amountUSD, 0);
+            const variableIncomeUSD = monthData.income.filter(i => i.type === 'variable').reduce((sum, income) => sum + income.amountUSD, 0);
+            
+            const totalExpensesUSD = monthData.expenses.reduce((sum, expense) => sum + expense.amountUSD, 0);
+            const fixedExpensesUSD = monthData.expenses.filter(e => e.type === 'fixed').reduce((sum, expense) => sum + expense.amountUSD, 0);
+            const variableExpensesUSD = monthData.expenses.filter(e => e.type === 'variable').reduce((sum, expense) => sum + expense.amountUSD, 0);
+            
             const netSavingsUSD = totalIncomeUSD - totalExpensesUSD;
             const savingsRate = totalIncomeUSD > 0 ? (netSavingsUSD / totalIncomeUSD) * 100 : 0;
             
@@ -661,40 +1027,81 @@
             document.getElementById('total-income-usd').textContent = formatCurrency(totalIncomeUSD, 'USD');
             document.getElementById('total-income-gmd').textContent = formatCurrency(totalIncomeUSD * USD_TO_GMD, 'GMD');
             
+            document.getElementById('fixed-income-usd').textContent = formatCurrency(fixedIncomeUSD, 'USD');
+            document.getElementById('fixed-income-gmd').textContent = formatCurrency(fixedIncomeUSD * USD_TO_GMD, 'GMD');
+            
+            document.getElementById('variable-income-usd').textContent = formatCurrency(variableIncomeUSD, 'USD');
+            document.getElementById('variable-income-gmd').textContent = formatCurrency(variableIncomeUSD * USD_TO_GMD, 'GMD');
+            
             document.getElementById('total-expenses-usd').textContent = formatCurrency(totalExpensesUSD, 'USD');
             document.getElementById('total-expenses-gmd').textContent = formatCurrency(totalExpensesUSD * USD_TO_GMD, 'GMD');
+            
+            document.getElementById('fixed-expenses-usd').textContent = formatCurrency(fixedExpensesUSD, 'USD');
+            document.getElementById('fixed-expenses-gmd').textContent = formatCurrency(fixedExpensesUSD * USD_TO_GMD, 'GMD');
+            
+            document.getElementById('variable-expenses-usd').textContent = formatCurrency(variableExpensesUSD, 'USD');
+            document.getElementById('variable-expenses-gmd').textContent = formatCurrency(variableExpensesUSD * USD_TO_GMD, 'GMD');
             
             document.getElementById('net-savings-usd').textContent = formatCurrency(netSavingsUSD, 'USD');
             document.getElementById('net-savings-gmd').textContent = formatCurrency(netSavingsUSD * USD_TO_GMD, 'GMD');
             
             document.getElementById('savings-rate').textContent = `${savingsRate.toFixed(1)}%`;
             
-            // Update category breakdown
-            updateCategoryBreakdown();
-            
-            // Update recent transactions
-            updateRecentTransactions();
+            // Update breakdowns
+            updateIncomeBreakdown();
+            updateExpenseBreakdown();
         }
 
-        // Update category breakdown
-        function updateCategoryBreakdown() {
-            const categoryTotals = {};
-            
-            budgetData.expenses.forEach(expense => {
-                if (!categoryTotals[expense.category]) {
-                    categoryTotals[expense.category] = 0;
-                }
-                categoryTotals[expense.category] += expense.amountUSD;
-            });
-            
-            const container = document.getElementById('category-breakdown');
+        // Update income breakdown
+        function updateIncomeBreakdown() {
+            const monthData = getCurrentMonthData();
+            const container = document.getElementById('income-breakdown');
             container.innerHTML = '';
             
-            Object.entries(categoryTotals)
+            // Group by source
+            const incomeBySource = {};
+            monthData.income.forEach(income => {
+                const key = `${income.source} (${income.type})`;
+                if (!incomeBySource[key]) {
+                    incomeBySource[key] = 0;
+                }
+                incomeBySource[key] += income.amountUSD;
+            });
+            
+            Object.entries(incomeBySource)
+                .sort(([,a], [,b]) => b - a)
+                .forEach(([source, amount]) => {
+                    const item = document.createElement('div');
+                    item.className = 'breakdown-item';
+                    item.innerHTML = `
+                        <div class="name">${source}</div>
+                        <div class="amount">${formatCurrency(amount, 'USD')}</div>
+                    `;
+                    container.appendChild(item);
+                });
+        }
+
+        // Update expense breakdown
+        function updateExpenseBreakdown() {
+            const monthData = getCurrentMonthData();
+            const container = document.getElementById('expense-breakdown');
+            container.innerHTML = '';
+            
+            // Group by category
+            const expensesByCategory = {};
+            monthData.expenses.forEach(expense => {
+                const key = `${expense.category} (${expense.type})`;
+                if (!expensesByCategory[key]) {
+                    expensesByCategory[key] = 0;
+                }
+                expensesByCategory[key] += expense.amountUSD;
+            });
+            
+            Object.entries(expensesByCategory)
                 .sort(([,a], [,b]) => b - a)
                 .forEach(([category, amount]) => {
                     const item = document.createElement('div');
-                    item.className = 'category-item';
+                    item.className = 'breakdown-item';
                     item.innerHTML = `
                         <div class="name">${category}</div>
                         <div class="amount">${formatCurrency(amount, 'USD')}</div>
@@ -703,43 +1110,70 @@
                 });
         }
 
-        // Update recent transactions
-        function updateRecentTransactions() {
-            const allTransactions = [
-                ...budgetData.income.map(item => ({...item, type: 'income'})),
-                ...budgetData.expenses.map(item => ({...item, type: 'expense'}))
-            ].sort((a, b) => b.id - a.id).slice(0, 10);
-            
-            const container = document.getElementById('recent-transactions');
+        // Update analysis
+        function updateAnalysis() {
+            const container = document.getElementById('monthly-comparison');
             container.innerHTML = '';
             
-            if (allTransactions.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #6c757d; padding: 20px;">No transactions yet. Start by adding some income or expenses!</p>';
-                return;
+            // Get last 6 months including current
+            const months = [];
+            for (let i = 5; i >= 0; i--) {
+                const date = new Date(currentYear, currentMonth - i, 1);
+                const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+                const monthName = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                
+                const data = budgetData[monthKey] || { income: [], expenses: [] };
+                const totalIncome = data.income.reduce((sum, income) => sum + income.amountUSD, 0);
+                const totalExpenses = data.expenses.reduce((sum, expense) => sum + expense.amountUSD, 0);
+                const netSavings = totalIncome - totalExpenses;
+                const savingsRate = totalIncome > 0 ? (netSavings / totalIncome) * 100 : 0;
+                
+                months.push({
+                    name: monthName,
+                    income: totalIncome,
+                    expenses: totalExpenses,
+                    savings: netSavings,
+                    rate: savingsRate,
+                    isCurrent: monthKey === getMonthKey()
+                });
             }
             
-            allTransactions.forEach(transaction => {
-                const item = document.createElement('div');
-                item.className = 'transaction-item';
-                const isIncome = transaction.type === 'income';
-                const displayText = isIncome ? transaction.source : `${transaction.category} - ${transaction.description}`;
-                const amountColor = isIncome ? '#27ae60' : '#e74c3c';
+            months.forEach(month => {
+                const card = document.createElement('div');
+                card.className = 'month-card';
+                if (month.isCurrent) {
+                    card.style.borderLeftColor = '#e74c3c';
+                    card.style.background = '#fff5f5';
+                }
                 
-                item.innerHTML = `
-                    <div><strong>${displayText}</strong></div>
-                    <div style="color: ${amountColor}; font-weight: bold;">${isIncome ? '+' : '-'}${formatCurrency(transaction.amountUSD, 'USD')}</div>
-                    <div style="color: ${amountColor}; font-weight: bold;">${isIncome ? '+' : '-'}${formatCurrency(transaction.amountGMD, 'GMD')}</div>
-                    <div>${transaction.date}</div>
-                    <div><span style="padding: 4px 8px; border-radius: 4px; font-size: 12px; background: ${isIncome ? '#d4edda' : '#f8d7da'}; color: ${isIncome ? '#155724' : '#721c24'};">${isIncome ? 'Income' : 'Expense'}</span></div>
+                card.innerHTML = `
+                    <h5>${month.name} ${month.isCurrent ? '(Current)' : ''}</h5>
+                    <div class="month-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Income:</span>
+                            <span class="stat-value">${formatCurrency(month.income, 'USD')}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Expenses:</span>
+                            <span class="stat-value">${formatCurrency(month.expenses, 'USD')}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Savings:</span>
+                            <span class="stat-value" style="color: ${month.savings >= 0 ? '#27ae60' : '#e74c3c'};">${formatCurrency(month.savings, 'USD')}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Rate:</span>
+                            <span class="stat-value" style="color: ${month.rate >= 0 ? '#27ae60' : '#e74c3c'};">${month.rate.toFixed(1)}%</span>
+                        </div>
+                    </div>
                 `;
-                container.appendChild(item);
+                container.appendChild(card);
             });
         }
 
-        // Save data to localStorage
+        // Save data
         function saveData() {
-            localStorage.setItem('budget-income', JSON.stringify(budgetData.income));
-            localStorage.setItem('budget-expenses', JSON.stringify(budgetData.expenses));
+            localStorage.setItem('monthly-budget-data', JSON.stringify(budgetData));
         }
 
         // Initialize the app when page loads
